@@ -23,7 +23,7 @@ I used the following resources:
 
 ## Extended Key Format
 We will start with the format for the extended key. Refer to bip-0032.mediawiki.
-See [ExtClass](../code/src/tj/bip32/ExtClass)
+See [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip32/ExtKey.java)
 
 ```java
     // (4 bytes): version bytes
