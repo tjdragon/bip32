@@ -40,3 +40,8 @@ See [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip3
     private int fingerPrint; 
     private byte[] checksum;
 ```
+
+Next a bunch of utility classes, for Elliptic Curves and basic crypto like hashing.
+
+## Elliptic Curve Crypto Utils
+This class [ECUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip32/ECUtils.java)
