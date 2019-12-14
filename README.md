@@ -1,7 +1,7 @@
 # bip32
 
 Created on Fri, 13th, Dec 2019  
-Last updated on Fri, 13th, Dec 2019 
+Last updated on Sat, 14th, Dec 2019 
 
 ## Intro
 A deep dive into address derivation, specifically, public key child derivation (KCD).  
