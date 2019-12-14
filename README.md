@@ -106,3 +106,8 @@ The method derive in [ExtKey.java](https://github.com/tjdragon/bip32/blob/master
 ```
 
 I used a specific seed which I kew the derived public keys so that I could check the code.
+
+## CDK Demo Two
+For this [CDKDemo2.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/CDKDemo2.java)
+I went for a reverse logic: using an extended public key from [https://iancoleman.io/bip39/](https://iancoleman.io/bip39/),
+I create an instance of ExtKey, I derive the key twice and check the P2PKH address to match what the web site gives.
