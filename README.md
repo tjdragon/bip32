@@ -56,3 +56,53 @@ public static final X9ECParameters secp256k1 = CustomNamedCurves.getByName("secp
 ## Crypto Utils
 Next is [CryptoUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/CryptoUtils.java).
 This class contains all the hashing functions required like HMAC SHA 256, RIPEMD160, SHA 256
+
+## KCD Utils
+Lastly, [KCDUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/KCDUtils.java).
+This class is all about array manipulation and extraction.  
+
+We can now get to the interesting stuff, how to piece all of those utility classes together to create
+public KCD and check if it works.
+
+## CDK Demo One
+[CDKDemo1.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/CDKDemo1.java) implements CDK
+by first creating an extended private key for BTC, then derive its extended public key, 
+and finally derive a second extended public key from the first extended public key.
+
+The method derive in [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/ExtKey.java) is where the derivation logic takes place:
+
+```java
+    public ExtKey derive(final int index) throws Exception {
+        // todo check for hardened index
+        final byte[] data = new byte[37];
+
+        System.arraycopy(keyData, 0, data, 0, 33);
+        System.arraycopy(KCDUtils.ser32(index), 0, data, 33, 4);
+
+        final byte[] hmacSHA512 = CryptoUtils.hmacSHA512(chainCode, data);
+        final byte[] key = KCDUtils.head32(hmacSHA512);
+        final byte[] chainCode = KCDUtils.tail32(hmacSHA512);
+
+        final BigInteger keyBigInt = KCDUtils.parse256(key);
+        final ECPoint keyECPoint = ECUtils.multiplyAndAdd(keyBigInt, keyData);
+
+        if (keyECPoint.isInfinity() || keyBigInt.compareTo(ECUtils.getN()) >= 0) {
+            return derive(index + 1);
+        }
+
+        final byte[] keyECData = keyECPoint.getEncoded(true);
+
+        final ExtKey derivedExtKey = new ExtKey()
+                .neutered(true)
+                .version(version)
+                .depth((byte) ((int) depth + 1))
+                .fingerPrint(KCDUtils.calculateFingerprint(keyData, neutered))
+                .childNumber(index)
+                .chainCode(chainCode)
+                .keyData(keyECData);
+
+        return derivedExtKey;
+    }
+```
+
+I used a specific seed which I kew the derived public keys so that I could check the code.
