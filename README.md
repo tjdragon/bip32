@@ -23,7 +23,7 @@ I used the following resources:
 
 ## Extended Key Format
 We will start with the format for the extended key. Refer to bip-0032.mediawiki.
-See [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip32/ExtKey.java)
+See [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/ExtKey.java)
 
 ```java
     // (4 bytes): version bytes
@@ -43,5 +43,16 @@ See [ExtKey.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip3
 
 Next a bunch of utility classes, for Elliptic Curves and basic crypto like hashing.
 
-## Elliptic Curve Crypto Utils
-This class [ECUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/tj/bip32/ECUtils.java)
+## Elliptic Curve Utils
+This class [ECUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/ECUtils.java) contains
+the EC utils necessary for key derivation. I am currently using [Bouncy Castle](https://www.bouncycastle.org/) but
+when I have time, I will implement the same using the libs from [OpenJDK](https://openjdk.java.net/).  
+We are using the secp256k1 curve as shown by the line below:
+
+```java
+public static final X9ECParameters secp256k1 = CustomNamedCurves.getByName("secp256k1");
+```
+
+## Crypto Utils
+Next is [CryptoUtils.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/CryptoUtils.java).
+This class contains all the hashing functions required like HMAC SHA 256, RIPEMD160, SHA 256
