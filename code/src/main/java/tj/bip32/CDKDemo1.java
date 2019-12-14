@@ -51,7 +51,7 @@ public class CDKDemo1 {
         System.out.println(eq2 + " : " + extPubKeyDerived1B58);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         try {
             Security.addProvider(new BouncyCastleProvider());
             new CDKDemo1();

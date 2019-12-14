@@ -69,6 +69,53 @@ public final class ExtKey {
         return data;
     }
 
+    public static ExtKey fromBase58(final String b58) throws Exception {
+        final byte[] data = Base58.decode(b58);
+        if (data.length != 82) throw new Exception("Wrong size 82 != ");
+
+        final ExtKey extKey = new ExtKey();
+
+        final byte[] versionData = new byte[4];
+        System.arraycopy(data, 0, versionData, 0, versionData.length);
+        extKey.version = KCDUtils.deSer32(versionData);
+
+        extKey.depth = data[4];
+
+        final byte[] fingerPrintData = new byte[4];
+        System.arraycopy(data, 5, fingerPrintData, 0, 4);
+        extKey.fingerPrint = KCDUtils.deSer32(fingerPrintData);
+
+        final byte[] childNumberData = new byte[4];
+        System.arraycopy(data, 9, childNumberData, 0, 4);
+        extKey.childNumber = KCDUtils.deSer32(childNumberData);
+
+        final byte[] chainCodeData = new byte[32];
+        System.arraycopy(data, 13, chainCodeData, 0, 32);
+        extKey.chainCode = chainCodeData;
+
+        if (data[45] == (byte) 0)
+            extKey.neutered = false;
+        else
+            extKey.neutered = true;
+
+        final byte[] keyData = new byte[33];
+        System.arraycopy(data, 45, keyData, 0, 33);
+        extKey.keyData = keyData;
+
+        final byte[] csData = new byte[4];
+        System.arraycopy(data, 78, csData, 0, 4);
+
+        final byte[] cs = KCDUtils.checksum(data);
+        final byte[] cs4 = new byte[4];
+        System.arraycopy(cs, 0, cs4, 0, 4); // 4 bytes
+
+        final boolean eq = Arrays.equals(cs4, csData);
+        assert eq == true : "Checksum don't match: " + Arrays.toString(csData) + " != " + Arrays.toString(cs4);
+        System.out.println("Checksums: " + Arrays.toString(csData) + " == " + Arrays.toString(cs4));
+
+        return extKey;
+    }
+
     public ExtKey version(final int version) {
         this.version = version;
         return this;

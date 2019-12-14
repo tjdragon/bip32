@@ -110,4 +110,27 @@ I used a specific seed which I kew the derived public keys so that I could check
 ## CDK Demo Two
 For this [CDKDemo2.java](https://github.com/tjdragon/bip32/blob/master/code/src/main/java/tj/bip32/CDKDemo2.java)
 I went for a reverse logic: using an extended public key from [https://iancoleman.io/bip39/](https://iancoleman.io/bip39/),
-I create an instance of ExtKey, I derive the key twice and check the P2PKH address to match what the web site gives.
+I create an instance of ExtKey, I derive the key twice and check the P2PKH address to match what the web site gives.  
+Probably the most interesting is the conversion to P2PKH format:
+
+```java
+    public static String asP2PKH(final byte[] keyData) throws Exception {
+        final byte[] sha256 = CryptoUtils.sha256(keyData);
+        final byte[] ripemd160 = CryptoUtils.ripemd160(sha256);
+
+        final byte[] adr1 = new byte[ripemd160.length + 1];
+        System.arraycopy(ripemd160, 0, adr1, 1, ripemd160.length);
+        final byte[] checksum = CryptoUtils.sha256(CryptoUtils.sha256(adr1));
+        final byte[] cs = new byte[4];
+        System.arraycopy(checksum, 0, cs, 0, 4);
+
+        final byte[] adr2 = new byte[adr1.length + 4];
+        System.arraycopy(adr1, 0, adr2, 0, adr1.length);
+        System.arraycopy(cs, 0, adr2, adr1.length, 4);
+
+        return Base58.encode(adr2);
+    }
+```
+
+### Final notes
+Not to be used in prod.

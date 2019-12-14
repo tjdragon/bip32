@@ -10,5 +10,6 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
     compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.64'
 }
