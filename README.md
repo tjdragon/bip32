@@ -22,6 +22,8 @@ I used the following resources:
 - https://en.bitcoin.it/wiki/Protocol_documentation#Addresses
 - https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses
 - http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html
+- https://www.soroushjp.com/2014/12/20/bitcoin-multisig-the-hard-way-understanding-raw-multisignature-bitcoin-transactions/
+- https://github.com/soroushjp/go-bitcoin-multisig
 - and Google of course!
 
 ## Extended Key Format
