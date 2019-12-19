@@ -1,7 +1,7 @@
 # bip32
 
 Created on Fri, 13th, Dec 2019  
-Last updated on Sat, 14th, Dec 2019 
+Last updated on Thu, 19th, Dec 2019 
 
 ## Intro
 A deep dive into address derivation, specifically, public key child derivation (KCD).  
@@ -19,6 +19,9 @@ I used the following resources:
 - https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 - https://github.com/bitcoinj/bitcoinj
 - https://iancoleman.io/bip39/
+- https://en.bitcoin.it/wiki/Protocol_documentation#Addresses
+- https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses
+- http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html
 - and Google of course!
 
 ## Extended Key Format
